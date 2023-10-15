@@ -1,19 +1,20 @@
 import User from '../models/userModel.js';
 import bcrypt from "bcrypt";
 import generateTokenAndSetCookie from '../utils/helpers/generateTokenAndSetCookie.js';
+import {v2 as cloudinary} from "cloudinary";
 
 const getUserProfile = async (req , res) => {
 
     const {username} = req.params;
     try{
         const user = await User.findOne({username}).select("-password").select("-updatedAt");
-        if(!user) return res.status(400).json({message:"user not found"});
+        if(!user) return res.status(400).json({error:"user not found"});
 
         res.status(200).json(user);
     }catch(error)
     {
-        res.status(500).json({message : error.message});
-        console.log({message:"Error in getting Profile"}, error.message);
+        res.status(500).json({error : error.message});
+        console.log({error:"Error in getting Profile"}, error.message);
     }
 }
 
@@ -23,7 +24,7 @@ const signupUser = async(req , res) =>{
         const user = await User.findOne({$or:[{email} ,{username}]});
 
         if(user){
-            return res.status(400).json({message : "User already exists"});
+            return res.status(400).json({error : "User already exists"});
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -45,15 +46,17 @@ const signupUser = async(req , res) =>{
                 name:newUser.name,
                 email : newUser.email,
                 username : newUser.username,
+                bio:newUser.bio,
+                profilePic:newUser.profilePic,
             });
         } else{
-            res.status(400).json({message:"invalid user data"});
+            res.status(400).json({error:"invalid user data"});
         }
         
 
     }catch(err)
     {
-        res.status.json({message:err.message});
+        res.status(500).json({error:err.message});
         console.log("Error in SignUp: " , err.message);
     }
 };
@@ -64,7 +67,7 @@ const loginUser = async(req , res) =>{
         const user = await User.findOne({username});
         const isPasswordCorrect = await bcrypt.compare(password , user?.password || "");
 
-        if(!user || !isPasswordCorrect) return res.status(400).json({message : "Invalid username or password "});
+        if(!user || !isPasswordCorrect) return res.status(400).json({error : "Invalid username or password "});
 
         generateTokenAndSetCookie(user._id , res);
 
@@ -73,11 +76,13 @@ const loginUser = async(req , res) =>{
             name:user.name,
             email:user.email,
             username:user.username,
+            bio:user.bio,
+            profilePic:user.profilePic,
         })
 
     }catch(error)
     {
-        res.status(500).json({message:error.message});
+        res.status(500).json({error:error.message});
         console.log("Error in logging in User" , error.message);
     }
 } ;
@@ -88,7 +93,7 @@ const logoutUser = (req , res) => {
         res.status(200).json({message:"User logged out sucessfully"});
     }catch(error)
     {
-        res.status(500).json({message:error.message});
+        res.status(500).json({error:error.message});
         console.log("Error in logging in User" , error.message);
     }
 };
@@ -99,9 +104,9 @@ const followUnfollowUser = async (req , res) => {
         const userToModify = await User.findById(id);
         const currentUser = await User.findById(req.user._id);
 
-        if(id === req.user._id.toString()) return res.status(400).json({message : "You can't follow or unfollow yourself" });
+        if(id === req.user._id.toString()) return res.status(400).json({error : "You can't follow or unfollow yourself" });
 
-        if(!userToModify || !currentUser) return res.status(400).json({message:"USer not found"});
+        if(!userToModify || !currentUser) return res.status(400).json({error:"USer not found"});
 
         const isFollowing = currentUser.following.includes(id);
 
@@ -120,25 +125,36 @@ const followUnfollowUser = async (req , res) => {
          
     }catch(error)
     {
-        res.status(500).json({message:error.message});
+        res.status(500).json({error:error.message});
         console.log("Error in follow/unfollow user" , error.message);
     }
 };
 
 const updateUser = async(req , res) => {
-    const {name , email , username , password , profilePic , bio} = req.body;
+    const {name , email , username , password  , bio} = req.body;
+    let {profilePic} = req.body; 
     const userId = req.user._id;
     try{
        let user = await User.findById(userId);
-        if(!user) res.status(400).json({message :"User Not Found"});
+        if(!user) res.status(400).json({error :"User Not Found"});
 
-        if(req.params.id !== userId.toString()) return res.status(400).json({message : "can't update others profile"});
+        if(req.params.id !== userId.toString()) return res.status(400).json({error : "can't update others profile"});
 
         if(password)
         {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password , hash);
             user.password = hashedPassword;
+        }
+
+        if(profilePic)
+        {   if(user.profilePic)
+            {   //delete previous profile pic if user has one
+                await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]);
+            }
+            const uploadResponse= await cloudinary.uploader.upload(profilePic);
+            profilePic = uploadResponse.secure_url;
+
         }
         
         user.name = name || user.name;
@@ -148,10 +164,11 @@ const updateUser = async(req , res) => {
         user.bio = bio || user.bio;
 
         user = await user.save();
-        res.status(200).json({message:"User Updated Successfully!!" , user});
+        user.password = null;
+        res.status(200).json(user);
 
     }catch(error){
-        res.status(500).json({message : error.message});
+        res.status(500).json({error : error.message});
         console.log("Error in update user : " , err.message);
     }
 }
