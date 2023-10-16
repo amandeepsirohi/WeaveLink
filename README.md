@@ -20,3 +20,63 @@ WeaveLink is a full-stack web application built using the MERN (MongoDB, Express
 >- <h4>Upvoting</h4> Users can upvote posts , allowing for the recognition of quality content.
 
 >- <h4>User Profiles</h4> Each user has a profile page displaying their activity, including threads they've created and comments they've posted.
+
+## Installation
+clone the repo
+```console
+git clone https://github.com/amandeepsirohi/WeaveLink.git
+```
+
+## Install server dependencies
+```console
+cd api
+npm install
+```
+
+## Install client dependencies
+```console
+cd client
+npm install
+```
+
+## Set up environment variables
+```console
+MONGO_URI=your_mongo_db_connection_string
+SECRET_KEY=your_secret_key_for_jwt
+CLOUDINARY_CLOUD_NAME=cloud_name
+CLOUDINARY_API_KEY=cloud_api_key
+CLOUDINARY_API_SECRET=api_secret
+```
+
+## Start the server and client
+
+### Start the server
+```console
+cd api
+nodemon server.js
+```
+### Start the client
+```console
+cd clinet
+npm run dev
+```
+
+## Usage
+> - Open your web browser and go to http://localhost:3000
+> - Sign up or log in and start sharing your thoughts.
+
+### Server (Node.js / Express.js)
+> - Express.js
+> - Mongoose
+> - bcryptjs
+> - dotenv
+> - cloudinary
+
+## Client (React.js)
+> - React
+> - React Router
+> - recoil
+> - Chakra UI
+
+## Authentication 
+> - JWT (JSON Web Tokens)
