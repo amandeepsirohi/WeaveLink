@@ -39,7 +39,7 @@ const createPost = async (req , res) => {
 
         await newPost.save();
 
-        res.status(200).json({message : "Post Created Congrats " , newPost});
+        res.status(200).json( newPost);
 
     } catch (error) {
         res.status(500).json({error : error.message});
@@ -55,7 +55,6 @@ const getPost = async (req , res) => {
         {
             res.status(404).json({error : "Post not found"});
         }
-
         res.status(200).json(post);
     } catch (error) {
         res.status(500).json({error : "Post not found"});
@@ -128,7 +127,7 @@ const replyToPost = async (req, res) => {
 		const { text } = req.body;
 		const postId = req.params.id;
 		const userId = req.user._id;
-		const userProfilePic = req.user.profilePic;
+		const userProfilePic = req.user.userProfilePic;
 		const username = req.user.username;
 
 		if (!text) {
