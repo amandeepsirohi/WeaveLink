@@ -11,15 +11,15 @@ WeaveLink is a full-stack web application built using the MERN (MongoDB, Express
 
 >- <h4> User Authentication</h4> Users can sign up, log in, and log out securely. Passwords are encrypted before storage.
 
->- <h4>Thread Creation</h4> Users can create new threads on a wide range of topics. They can provide a title and photo.
+>- <h4>Post Creation</h4> Users can create new pots on a wide range of topics. They can provide a title and photo.
 
 >- <h4>Comments</h4> Users can post comments on existing posts, enabling discussions and interactions within the community.
 
->- <h4>Real-time Updates</h4> The app employs WebSocket technology to provide real-time updates when new threads or comments are posted.
+>- <h4>Real-time Updates</h4> The app employs recoil to provide better state management when new posts or comments are posted.
 
 >- <h4>Upvoting</h4> Users can upvote posts , allowing for the recognition of quality content.
 
->- <h4>User Profiles</h4> Each user has a profile page displaying their activity, including threads they've created and comments they've posted.
+>- <h4>User Profiles</h4> Each user has a profile page displaying their activity, including posts they've created and comments they've posted.
 
 ## Installation
 clone the repo
@@ -29,13 +29,13 @@ git clone https://github.com/amandeepsirohi/WeaveLink.git
 
 ## Install server dependencies
 ```console
-cd api
+cd backend
 npm install
 ```
 
 ## Install client dependencies
 ```console
-cd client
+cd frontend
 npm install
 ```
 
@@ -52,12 +52,12 @@ CLOUDINARY_API_SECRET=api_secret
 
 ### Start the server
 ```console
-cd api
+cd backend
 nodemon server.js
 ```
 ### Start the client
 ```console
-cd clinet
+cd frontend
 npm run dev
 ```
 
@@ -65,7 +65,7 @@ npm run dev
 > - Open your web browser and go to http://localhost:3000
 > - Sign up or log in and start sharing your thoughts.
 
-### Server (Node.js / Express.js)
+## Server (Node.js / Express.js)
 > - Express.js
 > - Mongoose
 > - bcryptjs
