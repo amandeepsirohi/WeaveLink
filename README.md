@@ -72,8 +72,8 @@ npm run dev
 > - dotenv
 > - cloudinary
 
-## Client (React.js)
-> - React
+## Client 
+> - ReactJs
 > - React Router
 > - recoil
 > - Chakra UI
