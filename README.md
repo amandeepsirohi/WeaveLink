@@ -80,3 +80,75 @@ npm run dev
 
 ## Authentication 
 > - JWT (JSON Web Tokens)
+
+```
+Threads_app
+├─ README.md
+├─ backend
+│  ├─ .env
+│  ├─ controllers
+│  │  ├─ postController.js
+│  │  └─ userController.js
+│  ├─ db
+│  │  └─ connectDB.js
+│  ├─ middleware
+│  │  └─ protectRoute.js
+│  ├─ models
+│  │  ├─ postModel.js
+│  │  └─ userModel.js
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ routes
+│  │  ├─ postRoutes.js
+│  │  └─ userRoutes.js
+│  ├─ server.js
+│  └─ utils
+│     └─ helpers
+│        └─ generateTokenAndSetCookie.js
+└─ frontend
+   ├─ .eslintrc.cjs
+   ├─ README.md
+   ├─ index.html
+   ├─ package-lock.json
+   ├─ package.json
+   ├─ public
+   │  ├─ dark-logo.svg
+   │  ├─ elon.jpg
+   │  ├─ elon_icon.jpg
+   │  ├─ favicon.png
+   │  ├─ jack_icon.webp
+   │  ├─ light-logo.svg
+   │  ├─ post1.png
+   │  ├─ post2.png
+   │  ├─ post3.png
+   │  ├─ verified.png
+   │  ├─ zuck-avatar.png
+   │  └─ zuckstare.webp
+   ├─ src
+   │  ├─ App.jsx
+   │  ├─ atom
+   │  │  ├─ authAtom.js
+   │  │  ├─ postsAtom.js
+   │  │  └─ userAtom.js
+   │  ├─ components
+   │  │  ├─ Actions.jsx
+   │  │  ├─ Comment.jsx
+   │  │  ├─ CreatePost.jsx
+   │  │  ├─ Header.jsx
+   │  │  ├─ LogoutButton.jsx
+   │  │  ├─ Post.jsx
+   │  │  ├─ SignupCard.jsx
+   │  │  ├─ UserHeader.jsx
+   │  │  ├─ UserPost.jsx
+   │  │  └─ loginCard.jsx
+   │  ├─ index.css
+   │  ├─ main.jsx
+   │  └─ pages
+   │     ├─ AuthPage.jsx
+   │     ├─ HomePage.jsx
+   │     ├─ PostPage.jsx
+   │     ├─ UpdateProfilePage.jsx
+   │     └─ UserPage.jsx
+   └─ vite.config.js
+
+```

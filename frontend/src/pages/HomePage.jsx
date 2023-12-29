@@ -32,6 +32,8 @@ const HomePage = () => {
     }
     getFeedPosts();
   }, [showToast , setPosts]);
+  let new_data = Array.from(posts);
+  console.log(typeof(data));
   return (
     <>
       {loading && (
@@ -41,12 +43,11 @@ const HomePage = () => {
       )}
 
       {!loading && posts.length === 0 && <Text mt={10} fontSize={'25px'} textAlign={'center'}>To see posts follow someone!</Text>}
-
-      {posts.map((post) => (
+      {new_data.map((post) => (
 					<Post key={post._id} post={post} postedBy={post.postedBy} />
 				))}
     </>
   )
 }
 
-export default HomePage
+export default HomePage;
