@@ -33,7 +33,6 @@ const HomePage = () => {
     getFeedPosts();
   }, [showToast , setPosts]);
   let new_data = Array.from(posts);
-  console.log(typeof(data));
   return (
     <>
       {loading && (
