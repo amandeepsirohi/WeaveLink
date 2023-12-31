@@ -15,7 +15,7 @@ import userAtom from "../atom/userAtom";
 import { BsCheck2All } from "react-icons/bs";
 import { selectedConversationAtom } from "../atom/messagesAtom";
 
-const Conversation = ({ conversation }) => {
+const Conversation = ({ conversation, isOnline }) => {
   const user = conversation.participants[0];
   const currentUser = useRecoilValue(userAtom);
   const lastMessage = conversation.lastMessage;
@@ -53,7 +53,7 @@ const Conversation = ({ conversation }) => {
         <Avatar
           size={{ base: "xs", sm: "sm", md: "md" }}
           src={user?.profilePic}>
-          <AvatarBadge boxSize={"1em"} bg={"green.500"} />{" "}
+          {isOnline ? <AvatarBadge boxSize={"1em"} bg={"green.500"} /> : ""}
         </Avatar>
       </WrapItem>
       <Stack direction={"column"} fontSize={"sm"}>
